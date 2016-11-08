@@ -1,0 +1,53 @@
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+
+body {
+    padding: 50px;
+}
+
+#tree, #files {
+    -webkit-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+
+    padding: 0;
+}
+
+#tree {
+    padding: 15px;
+}
+
+#files {
+    width: calc(75% - 20px);
+    margin-left: 20px;
+}
+
+.file {
+    height: 44px;
+    line-height: 44px;
+
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.file:last-of-type {
+    border-bottom: none;
+}
+
+/*noinspection CssNoGenericFontName*/
+.file::before {
+    height: 44px;
+    width: 44px;
+
+    box-sizing: border-box;
+    padding: 0 10px;
+
+    float: left;
+
+    font-family: 'Material Icons';
+    font-size: 24px;
+    color: #666;
+
+    content: "insert_drive_file";
+}
+
+.file.folder::before {
+    content: "folder"
+}
