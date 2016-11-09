@@ -1,6 +1,6 @@
 # TODO: CHANGE LOGIN METHOD TO USERNAME & PASSWORD
 import os
-import dropbox_interface
+import dropbox_server
 
 from flask import Flask, session, redirect, url_for, render_template, send_from_directory, request, abort
 
@@ -33,7 +33,7 @@ def save_token():
 @app.route('/wiki/content', methods=['GET'])
 def get_content():
     if 'token' in session:
-        return dropbox_interface.get_content(session['token'], request.args['path'])
+        return dropbox_server.get_content(session['token'], request.args['path'])
     abort(401)
 
 
