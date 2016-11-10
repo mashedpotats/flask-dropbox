@@ -4,7 +4,7 @@ body {
     padding: 50px;
 }
 
-#tree, #files {
+#tree, #files-table {
     -webkit-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
 
@@ -15,37 +15,27 @@ body {
     padding: 15px;
 }
 
-#files {
+#files-table {
+    display: none; /* before load */
     width: calc(75% - 20px);
     margin-left: 20px;
 }
 
-.file {
-    height: 44px;
-    line-height: 44px;
-
-    border-bottom: 1px solid #f0f0f0;
+#files-table > thead > tr > th:first-of-type {
+    width: 22px;
 }
 
-.file:last-of-type {
-    border-bottom: none;
-}
+.file .icon {
+    padding: 0 0 0 10px;
 
-/*noinspection CssNoGenericFontName*/
-.file::before {
-    height: 44px;
-    width: 44px;
-
-    box-sizing: border-box;
-    padding: 0 10px;
-
-    float: left;
-
-    font-family: 'Material Icons';
+    font-family: 'Material Icons', sans-serif;
     font-size: 24px;
-    color: #666;
 
-    content: "insert_drive_file";
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
 }
 
 .file.folder::before {

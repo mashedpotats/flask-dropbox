@@ -1,19 +1,21 @@
 # TODO: CHANGE LOGIN METHOD TO USERNAME & PASSWORD
+import json
 import os
-import dropbox_server
 
-from flask import Flask, session, redirect, url_for, render_template, send_from_directory, request, abort
+from flask import Flask, session, render_template, send_from_directory, request
+
+import dropbox_server
 
 app = Flask(__name__)
 
+TOKEN = 'mfcRgIwx6aAAAAAAAAAAWhRuPZRpiGb9bHNNDzudgYyMZr-MDae0eOMjxYD6hyJd'
+dbx = dropbox_server.DropboxServer(token=TOKEN)
 
+
+# root page
 @app.route('/')
 def index():
-    # if 'token' in session:
-    if True: # temporary
-        return render_template('index.html')
-
-    return redirect(url_for('login'))
+    return render_template('index.html')
 
 
 # login page
@@ -29,12 +31,22 @@ def save_token():
     return "201", 201
 
 
-# get directory contents
-@app.route('/wiki/content', methods=['GET'])
-def get_content():
-    if 'token' in session:
-        return dropbox_server.get_content(session['token'], request.args['path'])
-    abort(401)
+# read
+@app.route('/wiki/read', methods=['GET'])
+def read():
+    return json.dumps(dbx.read())  # return as JSON compatible string
+
+
+# write
+@app.route('/wiki/write', methods=['POST'])
+def write():
+    return dbx.write(request.form['filename'], request.form['data'])
+
+
+# delete
+@app.route('/wiki/delete', methods=['DELETE'])
+def delete():
+    return dbx.delete(request.args['filename'])
 
 
 # error handler for 404

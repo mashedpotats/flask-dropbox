@@ -1,28 +1,30 @@
-# TODO Possibly change from using non-classes since I can only save JSON values to sessions. Any advice is welcome.
+import datetime
 
 import dropbox
 
 
 class DropboxServer:
-    dbx = None
-
     def __init__(self, token=None):
-        self.set_token(token)
+        self.dbx = dropbox.Dropbox(token)
 
-    def set_token(self, token):
-        dbx = dropbox.Dropbox(token)
-
-    def create(self, filename, data):
-        if self.dbx is not None:
-            return self.dbx.files_upload(data, '/' + filename)
+    def write(self, filename, data):
+        return self.dbx.files_upload(data, '/' + filename)
 
     def read(self):
-        if self.dbx is not None:
-            return self.dbx.files_list_folder('')
+        entries = []
+        epoch = datetime.datetime.utcfromtimestamp(0)
+        for entry in self.dbx.files_list_folder('').entries:  # retrieving names
+            entrydict = {
+                'modified': (entry.client_modified - epoch).total_seconds() * 1000,
+                'name': entry.name,
+                'size': entry.size
+            }
 
-    def update(self, filename, data):  # to be clear. but they act the same
-        self.create(filename, data)
+            entries.append(entrydict)
+        return entries  # return the array
 
     def delete(self, filename):
-        if self.dbx is not None:
-            return self.dbx.files_delete('/' + filename)
+        return self.dbx.files_delete('/' + filename)
+
+    def get_dropbox(self):
+        return self.dbx

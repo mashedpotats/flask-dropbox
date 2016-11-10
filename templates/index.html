@@ -5,10 +5,8 @@
 
 {% block head %}
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"> {#for indexing#}
-    <link rel="stylesheet" href="/css/jstree.min.css">
     <link rel="stylesheet" href="/css/index.css">
 
-    <script src="/js/jstree.min.js"></script>
     <script src="/js/index.js"></script>
 {% endblock %}
 
@@ -19,20 +17,25 @@
         </div>
         <div class="row">
             <ol class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Library</a></li>
-                <li class="active">Data</li>
+                <li><a href="#">Is</a></li>
+                <li><a href="#">Planned</a></li>
             </ol>
         </div>
         <div class="row">
-            <div class="hidden-xs col-sm-3" id="tree"></div>
-            <div class="col-xs-12 col-sm-9" id="files">
-                <div class="file folder">Apps</div>
-                <div class="file folder">Photos</div>
-                <div class="file">Foo</div>
-                <div class="file">Bar</div>
-                <div class="file">Donald Trump</div>
+            <div class="hidden-xs col-sm-3" id="tree">
+                Tree is planned
             </div>
+            <table class="col-xs-12 col-sm-9 table" id="files-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                    </tr>
+                </thead>
+                <tbody id="files"></tbody>
+            </table>
         </div>
     </div>
 {% endblock %}
