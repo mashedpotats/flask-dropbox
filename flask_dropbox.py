@@ -8,7 +8,11 @@ import dropbox_server
 
 app = Flask(__name__)
 
-TOKEN = 'mfcRgIwx6aAAAAAAAAAAWhRuPZRpiGb9bHNNDzudgYyMZr-MDae0eOMjxYD6hyJd'
+TOKEN = ''
+with open('token.txt', 'r')as f:
+    global TOKEN
+    TOKEN = f.read()
+
 dbx = dropbox_server.DropboxServer(token=TOKEN)
 
 
@@ -25,28 +29,29 @@ def login():
 
 
 # save token
-@app.route('/wiki/token', methods=['POST'])
+@app.route('/crud/token', methods=['POST'])
 def save_token():
     session['token'] = request.form['token']
     return "201", 201
 
 
 # read
-@app.route('/wiki/read', methods=['GET'])
+@app.route('/crud/read', methods=['GET'])
 def read():
     return json.dumps(dbx.read())  # return as JSON compatible string
 
 
 # write
-@app.route('/wiki/write', methods=['POST'])
+@app.route('/crud/write', methods=['POST'])
 def write():
     return dbx.write(request.form['filename'], request.form['data'])
 
 
 # delete
-@app.route('/wiki/delete', methods=['DELETE'])
+@app.route('/crud/delete', methods=['DELETE'])
 def delete():
-    return dbx.delete(request.args['filename'])
+    value = dbx.delete(request.headers.get('filename'))
+    return str(value), value
 
 
 # error handler for 404

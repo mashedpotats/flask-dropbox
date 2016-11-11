@@ -3,9 +3,11 @@
  */
 $(function () {
     // variable declarations
-    var methods = this; // give reference
+    var obj = this; // give reference
+    var $delete = $('#delete');
     var $filesTable = $('#files-table');
     var $files = $('#files');
+    this.$selected = $();
 
     String.prototype.format = function (values) {
         var string = this;
@@ -33,28 +35,65 @@ $(function () {
     this.updateContents = function () {
         $.ajax({
             dataType: 'json',
-            url: '/wiki/read',
+            url: '/crud/read',
             success: function (files) {
                 console.log('Retrieved', files);
+                $files.html(''); // clean
+
                 files.forEach(function (file) {
-                    $files.append(fileElement.format({
-                        name: file.name,
-                        type: (function() {
+                    var $fileElement = $(fileElement.format({
+                        name: file.name.replace(/\.[^/.]+$/, ""),
+                        type: (function () {
                             var extension = extensionRegex.exec(file.name)[1];
                             if (extension != undefined)
                                 return extension;
                             return 'none';
                         }),
-                        size: methods.formatBytes(file.size),
+                        size: obj.formatBytes(file.size),
                         icon: 'insert_drive_file'
-                    }))
+                    })).data('filename', file.name);
+
+                    $files.append($fileElement);
                 });
 
                 $filesTable.show(); // reveal files after load
+                obj.fileListeners();
             }
         })
     };
 
+    this.listeners = function() {
+        $delete.on('click', function() {
+            if (!$delete.hasClass('disabled')) {
+                $.ajax({
+                    method: 'DELETE',
+                    url: '/crud/delete',
+                    headers: {
+                        'filename': obj.$selected.data('filename')
+                    },
+                    success: function() {
+                        obj.updateContents();
+                    }
+                });
+            }
+        });
+    };
+
+
+    this.fileListeners = function () {
+        $('.file', $files).on('click', function () {
+            obj.$selected.removeClass('active');
+            $delete.removeClass('disabled');
+            if (obj.$selected[0] != this)
+                $(this).toggleClass('active');
+            else // if deselecting
+                $delete.addClass('disabled');
+
+            obj.$selected = $(this);
+        });
+    };
+
     // run initial methods
-    methods.updateContents();
+    obj.updateContents();
+    obj.listeners();
 });

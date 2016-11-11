@@ -26,7 +26,6 @@ $(function() {
     });
 
     $devToken.on('click', function() {
-        // Please do not exploit my own personal auth token.
-        $token.val('mfcRgIwx6aAAAAAAAAAAWhRuPZRpiGb9bHNNDzudgYyMZr-MDae0eOMjxYD6hyJd');
+        $token.val('replace with your own token');
     });
 });

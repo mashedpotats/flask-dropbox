@@ -4,6 +4,15 @@ body {
     padding: 50px;
 }
 
+.toolbar {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.actions {
+    padding: 0;
+}
+
 #tree, #files-table {
     -webkit-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
@@ -36,6 +45,13 @@ body {
     letter-spacing: normal;
     -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
+}
+
+.file td, .file th {
+    height: 55px;
+    line-height: 55px !important;
+
+    padding: 0 8px !important;
 }
 
 .file.folder::before {

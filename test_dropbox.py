@@ -1,6 +1,9 @@
 import dropbox_server
 
-TOKEN = 'mfcRgIwx6aAAAAAAAAAAWhRuPZRpiGb9bHNNDzudgYyMZr-MDae0eOMjxYD6hyJd'
-dbx = dropbox_server.DropboxServer(token=TOKEN)
+token = ''
 
-print dbx.read()
+with open('token.txt', 'r')as f:
+    global token
+    token = f.read()
+
+dbx = dropbox_server.DropboxServer(token=token)

@@ -1,6 +1,7 @@
 import datetime
 
 import dropbox
+from dropbox.files import DeleteError
 
 
 class DropboxServer:
@@ -24,7 +25,11 @@ class DropboxServer:
         return entries  # return the array
 
     def delete(self, filename):
-        return self.dbx.files_delete('/' + filename)
+        try:
+            self.dbx.files_delete('/' + filename)  # delete
+            return 200
+        except DeleteError:
+            return 404
 
     def get_dropbox(self):
         return self.dbx
